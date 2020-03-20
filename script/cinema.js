@@ -35,14 +35,38 @@ function cinema_player_init(options) {
 	// set remote events
 	jQuery(".cinema_player_start").click(function() {
 		cinema_play();
-	})
+	});
 
 	jQuery(".cinema_player_stop").click(function() {
 		cinema_pause();
-	})
+	});
+
+	// add chat button
+	jQuery("#cinema_chat_hide").click(function() {
+		cinema_chat_unfold();
+	});
+
+
+// cinema_player_fullscreen();
+
 
 	// start loop
 	setInterval(cinema_player_poll, 1000);
+}
+
+
+// fullscreen
+function cinema_player_fullscreen() {
+
+	jQuery('<div id="cinema_fullscreen">&nbsp;</div>').appendTo("body");
+	jQuery('#cinema_wrapper').detach().appendTo('#cinema_fullscreen');
+}
+
+
+// fullscreen off
+function cinema_player_full_off() {
+
+	jQuery('#cinema_wrapper').detach().appendTo('#tplvoe_content');
 }
 
 
@@ -191,6 +215,7 @@ function cinema_chat_init(options) {
 
 	// wait for ENTER
 	jQuery(".cinema_chat_input").keypress(function (e) {
+
 		if (e.which == 13) {
 
 			// send message and clear input field
@@ -201,7 +226,7 @@ function cinema_chat_init(options) {
 	});
 
 	// start chat loop
-	setInterval(cinema_chat_send, 1000);
+	setInterval(cinema_chat_get, 1000);
 }
 
 
@@ -216,6 +241,24 @@ function cinema_chat_send(data) {
 		});
 	}
 
+	// send ajax request
+	jQuery.ajax({
+		"url": url,
+		"dataType": "json",
+		"success": function(result) {
+
+			// add options to select
+			if (result != "") {
+			}
+		}
+	});
+}
+
+
+// send action with params (data), send result to callback	
+function cinema_chat_get(data) {
+
+	var url = "?cinema_action=chat&name=" + program_name;
 
 	// send ajax request
 	jQuery.ajax({
@@ -232,13 +275,29 @@ function cinema_chat_send(data) {
 }
 
 
+function cinema_chat_unfold() {
+
+	var width = jQuery("#cinema_chat").css("width");
+
+	cinema_chat_clear_new();
+
+	// show chat
+	if (jQuery("#cinema_chat").css("right") == "0px") {
+		jQuery("#cinema_chat").css("right", "-"+width);
+	}
+	else {
+		jQuery("#cinema_chat").css("right", 0);
+	}
+}
+
+
 function cinema_chat_update(data) {
 
 	// check for new messages
 	jQuery.each(data, function(time, message) {
 
 		// add new messages
-		if (chat_time == undefined || time > Math.floor(chat_time)) {
+		if (chat_time == undefined || time >= Math.floor(chat_time)) {
 
 			hTime = new Date(time * 1000).toISOString().slice(-13, -5);
 
@@ -260,10 +319,28 @@ function cinema_chat_update(data) {
 
 			// prepend to list
 			jQuery(".cinema_chat_list").prepend(htmlString);
+
+			cinema_chat_set_new();
 		}
 	});
 
-	chat_time = Math.floor(Date.now() / 1000);
+	chat_time = Math.floor(Date.now());
+}
+
+
+function cinema_chat_set_new() {
+
+	// if folded > show new
+	if (jQuery("#cinema_chat").css("right") != "0px") {
+		jQuery("#cinema_chat_hide").removeClass("cinema_chat_button");
+		jQuery("#cinema_chat_hide").addClass("cinema_chat_new");
+	}
+}
+
+
+function cinema_chat_clear_new() {
+		jQuery("#cinema_chat_hide").addClass("cinema_chat_button");
+	jQuery("#cinema_chat_hide").removeClass("cinema_chat_new");
 }
 
 

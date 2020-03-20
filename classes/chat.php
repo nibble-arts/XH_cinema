@@ -22,8 +22,10 @@ class Chat {
 
 		date_default_timezone_set("UTC");
 		
+		$millitime = intval(microtime(true) * 1000);
+
 		$data = [
-			time() => [
+			$millitime => [
 				"text" => $text,
 				"user" => $user,
 			]
@@ -37,6 +39,11 @@ class Chat {
 	// get messages as array
 	// newest message first
 	public static function get() {
-		return array_reverse(parse_ini_file(self::$path, true), true);
+
+		// sort by timestamp desc
+		$out = parse_ini_file(self::$path, true);
+		krsort($out);
+
+		return $out;
 	}
 }

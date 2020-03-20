@@ -41,8 +41,11 @@ class Api {
 						Chat::send(Session::param("text"), Session::param("user"));
 					}
 
-					// return chat list
-					echo json_encode(Chat::get());
+					else {
+						// return chat list
+						echo json_encode(Chat::get());
+					}
+
 					die();
 
 			}

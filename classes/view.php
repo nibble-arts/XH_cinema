@@ -8,26 +8,31 @@ class View {
 
 		$o = "";
 
-		$o .= '<div class="cinema_player_title">' . Text::title() . '</div>';
+		$o .= '<div id="cinema_wrapper">';
 
-		// CREATE PLAYER
-		$o .= '<div id="cinema_player" class="cinema_player_player"></div>';
-		$o .= '<script src="https://player.vimeo.com/api/player.js"></script>';
+			$o .= '<div class="cinema_player_title">' . Text::title() . '</div>';
 
-		// local control
-		// $o .= '<div><span class="cinema_start">START</span> <span class="cinema_stop">STOP</span></div>';
+			// CREATE PLAYER
+			$o .= '<div id="cinema_player" class="cinema_player_player"></div>';
+			$o .= '<script src="https://player.vimeo.com/api/player.js"></script>';
 
-		$o .= '<div class="cinema_player_status">Player-Status</div>';
+			// local control
+			// $o .= '<div><span class="cinema_start">START</span> <span class="cinema_stop">STOP</span></div>';
 
-		$o .= '<div style="clear:both;"></div>';
+			$o .= '<div class="cinema_player_status">Player-Status</div>';
 
-		// CHAT section
-		$o .= '<div class="cinema_chat">';
+			$o .= '<div style="clear:both;"></div>';
 
-			$o .= '<div class="cinema_chat_text">Nachricht <input type="text" class="cinema_chat_input"></div>';
+			// CHAT section
+			$o .= '<div id="cinema_chat" class="cinema_chat">';
 
-			$o .= '<div class="cinema_chat_list">';
+				$o .= '<div id="cinema_chat_hide" class="cinema_chat_button">Chat</div>';
 
+				$o .= '<div class="cinema_chat_text">Nachricht <input type="text" class="cinema_chat_input"></div>';
+
+				$o .= '<div class="cinema_chat_list">';
+
+				$o .= '</div>';
 			$o .= '</div>';
 		$o .= '</div>';
 
