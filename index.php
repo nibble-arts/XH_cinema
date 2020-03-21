@@ -57,6 +57,12 @@ function cinema($name = false, $function = false, $options = []) {
 		// include javascript
 		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/cinema.js"></script>';
 
+		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/chat.js"></script>';
+
+		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/host.js"></script>';
+
+		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/player.js"></script>';
+
 		// switch function
 		switch ($function) {
 			
@@ -68,7 +74,8 @@ function cinema($name = false, $function = false, $options = []) {
 					'name':'" . $name . "',
 					'uuid':'',
 					'width':'" . 400 . "',
-					'height':'" . 300 . "'
+					'height':'" . 300 . "',
+					'user':'" . $user . "'
 				});";
 
 				$o .= cinema\View::host($name);
@@ -87,6 +94,7 @@ function cinema($name = false, $function = false, $options = []) {
 				});";
 
 				$o .= cinema\View::cinema($name, $user);
+
 				break;
 				
 		}

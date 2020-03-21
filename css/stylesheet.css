@@ -4,12 +4,20 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 10000;
+	z-index: 100000;
 	vertical-align: middle;
 	text-align: center;
 	background-color: black;
 	color: white;
 	overflow: hidden;
+}
+
+.cinema_fullscreen_grow {
+	background-image: url("images/fullscreen.png");
+}
+
+.cinema_fullscreen_shrink {
+	background-image: url("images/fullscreen_shrink_neg.png");
 }
 
 #cinema_chat {
@@ -18,12 +26,12 @@
 	right: -300px;
 	width: 300px;
 	height: 60%;
-	z-index: 10001;
+	z-index: 100001;
 	vertical-align: middle;
 	text-align: center;
-	background-color: white;
+	/*background-color: white;*/
 	color: black;
-	/*overflow: hidden;*/
+	display: none;
 }
 
 #cinema_chat_hide {
@@ -80,14 +88,6 @@
 	cursor: grab;
 }
 
-.cinema_fullscreen_grow {
-	background-image: url("images/fullscreen.png");
-}
-
-.cinema_fullscreen_shrink {
-	background-image: url("images/fullscreen_shrink_neg.png");
-}
-
 .cinema_button {
 	cursor: grab;
 	border: 1px solid grey;
@@ -103,7 +103,7 @@
 	float: left;
 }
 
-.cinema_button,.cinema_host_vid,.cinema_player_status {
+.cinema_button,.cinema_host_vid,.cinema_host_input,.cinema_player_status {
 	display: none;
 }
 
@@ -137,11 +137,15 @@
 }
 
 .cinema_chat_text {
-	margin-bottom: 15px;
+	margin: 0 0 5px 5px;
 	width: 100%;
+	background-color: white;
+	border: 1px solid grey;
+	border-radius: 5px;
+	padding: 3px;
 }
 
-.cinema_chat_input {
+.cinema_chat_text input {
 	width: 100%;
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
 	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
@@ -163,6 +167,10 @@
 	background-color: lightyellow;
 }
 
+.cinema_message_user {
+	font-size: 8pt;
+}
+
 .cinema_own_message {
 	float: right;
 	background-color: lightgreen;
@@ -178,6 +186,7 @@
 
 	font-size: 10pt;
 	color: black;
+	text-align: left;
 }
 
 .cinema_message::after,.cinema_message::after {

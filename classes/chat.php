@@ -21,18 +21,25 @@ class Chat {
 	public static function send($text, $user = false) {
 
 		date_default_timezone_set("UTC");
-		
-		$millitime = intval(microtime(true) * 1000);
 
-		$data = [
-			$millitime => [
-				"text" => $text,
-				"user" => $user,
-			]
+		if (!$chat = parse_ini_file(self::$path, true)) {
+			$chat = [];
+		}
+
+		$chat[count($chat) + 1] = [
+			"text" => $text,
+			"user" => $user,
+			"timestamp" => intval(microtime(true) * 1000)
 		];
 
+		// restrict to maximal messages from config
+		// if (count($chat) >Condig::chat_max_messages()) {
+		// 	array_shift($chat);
+		// }
+
+
 		// write message to file
-		file_put_contents(self::$path, Array2ini::serialize($data), FILE_APPEND);
+		file_put_contents(self::$path, Array2ini::serialize($chat));
 	}
 
 
@@ -41,9 +48,13 @@ class Chat {
 	public static function get() {
 
 		// sort by timestamp desc
-		$out = parse_ini_file(self::$path, true);
-		krsort($out);
+		if (!$chat = parse_ini_file(self::$path, true)) {
+			$chat = [];
+		}
 
-		return $out;
+		// sort descending
+		krsort($chat);
+
+		return ["chat" => $chat];
 	}
 }

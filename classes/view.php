@@ -66,7 +66,7 @@ class View {
 
 		// LOAD FILM
 		$o .= '<div class="cinema_host_vid">Video ID</div>';
-		$o .= '<input type="text" name="cinema_host_vid">';
+		$o .= '<input type="text" name="cinema_host_vid" class="cinema_host_input">';
 		$o .= '<div class="cinema_host_load cinema_button">Film laden</div>';
 
 		// UNLOAD FILM
@@ -77,6 +77,7 @@ class View {
 		$o .= '<div class="cinema_host_play cinema_button cinema_play" vid="329757457">START</div>';
 		// PAUSE
 		$o .= '<div class="cinema_host_pause cinema_button cinema_pause">PAUSE</div>';
+		$o .= '<div class="cinema_host_replay cinema_button cinema_play" vid="329757457">REPLAY</div>';
 		$o .= '<div style="clear:left;"></div>';
 
 		// STATI
@@ -87,7 +88,6 @@ class View {
 
 		// CHAT section
 		$o .= '<div class="cinema_chat">';
-
 			$o .= '<div class="cinema_chat_text">Nachricht <input type="text" class="cinema_chat_input"></div>';
 
 			$o .= '<div class="cinema_chat_list">';

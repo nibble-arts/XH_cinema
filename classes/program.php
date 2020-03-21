@@ -42,11 +42,12 @@ class Program {
 			"id" => "",
 			"status" => "stop",
 			"name" => "",
+			"user" => "",
+			"uuid" => "",
 			"duration" => "",
 			"timestamp" => ""
 		];
 
-		$this->write();
 	}
 
 
@@ -71,18 +72,16 @@ class Program {
 	// set a new status
 	// write to file
 	public function set($key, $value) {
-
-		$this->status();
-
 		$this->status[$key] = $value;
-		$this->status["timestamp"] = time();
+	}
 
-		if (!$this->write()) {
 
-			return false;
+	public function clear($key) {
+
+		if (isset($this->status[$key])) {
+			unset($this->status[$key]);
 		}
 
-		return true;
 	}
 
 
@@ -99,7 +98,12 @@ class Program {
 	// write status file
 	public function write() {
 
+		// update timestamp
+		$this->status["timestamp"] = time();
+
 		file_put_contents(Path::create([$this->path, $this->name . ".status.ini"]), Array2Ini::serialize($this->status));
+
+		// copy(Path::create([$this->path, $this->name . ".status.new"]), Path::create([$this->path, $this->name . ".status.ini"]));
 	}
 
 
@@ -115,7 +119,7 @@ class Program {
 			}
 		}
 
-		return $this->status;
+		return ["status" => $this->status];
 	}
 
 
