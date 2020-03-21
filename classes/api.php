@@ -13,29 +13,30 @@ class Api {
 			Chat::init($name);
 
 
-
-
 			$program = new Program(Session::param("name"));
 
 			switch (Session::param("cinema_action")) {
 				
 				case "set":
-					if ($program)
+					if ($program) {
+						
+						Session::remove_param("cinema_action");
 
-					Session::remove_param("cinema_action");
-
-					// set parameters in program status
-					foreach (Session::get_param_keys() as $key) {
-						$program->set($key, Session::param($key));
+						// set parameters in program status
+						foreach (Session::get_param_keys() as $key) {
+							$program->set($key, Session::param($key));
+						}
 					}
+
 					break;
+
 
 				case "stop":
 					$program->reset();
 					break;
 
-				case "chat":
 
+				case "chat":
 					// new text > save
 					if (Session::param("text") != "") {
 						Chat::send(Session::param("text"), Session::param("user"));

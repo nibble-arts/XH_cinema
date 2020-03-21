@@ -10,10 +10,15 @@ class View {
 
 		$o .= '<div id="cinema_wrapper">';
 
+			$o .= '<div id="cinema_fullscreen_button" class="cinema_fullscreen_grow"></div>';
+
 			$o .= '<div class="cinema_player_title">' . Text::title() . '</div>';
 
 			// CREATE PLAYER
-			$o .= '<div id="cinema_player" class="cinema_player_player"></div>';
+			$o .= '<div class="cinema_player_wrapper">';
+				$o .= '<div id="cinema_player" class="cinema_player_player"></div>';
+			$o .= '</div>';
+
 			$o .= '<script src="https://player.vimeo.com/api/player.js"></script>';
 
 			// local control
@@ -26,7 +31,7 @@ class View {
 			// CHAT section
 			$o .= '<div id="cinema_chat" class="cinema_chat">';
 
-				$o .= '<div id="cinema_chat_hide" class="cinema_chat_button">Chat</div>';
+				$o .= '<div id="cinema_chat_hide" class="cinema_chat_button"></div>';
 
 				$o .= '<div class="cinema_chat_text">Nachricht <input type="text" class="cinema_chat_input"></div>';
 
@@ -50,11 +55,18 @@ class View {
 		$o .= ' verbundene Zuseher</div>';
 
 		// CREATE PLAYER
-		$o .= '<div id="cinema_player" class="cinema_host_player"></div>';
+		$o .= '<div class="cinema_host_player">';
+			$o .= '<div id="cinema_player"></div>';
+
+			$o .= '<div class="cinema_player_play cinema_button">Vorschau</div>';
+			$o .= '<div class="cinema_player_pause cinema_button">Pause</div>';
+		$o .= '</div>';
+
 		$o .= '<script src="https://player.vimeo.com/api/player.js"></script>';
 
 		// LOAD FILM
 		$o .= '<div class="cinema_host_vid">Video ID</div>';
+		$o .= '<input type="text" name="cinema_host_vid">';
 		$o .= '<div class="cinema_host_load cinema_button">Film laden</div>';
 
 		// UNLOAD FILM

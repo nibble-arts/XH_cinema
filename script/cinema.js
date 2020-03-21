@@ -3,6 +3,7 @@ var program_name;
 var played;
 var player_options;
 var player_id
+var player_local;
 
 var player;
 
@@ -26,26 +27,55 @@ function cinema_init(options) {
 
 function cinema_player_init(options) {
 
+	player_local = false;	// remote control
 	player_options = options;
 
 	program_name = options.name;
+
+	// set to remote control
 	played = false;
 
 	// add local play control 
 	// set remote events
-	jQuery(".cinema_player_start").click(function() {
-		cinema_play();
+	jQuery(".cinema_player_play").click(function() {
+		player_local = true;	// local control
+
+		jQuery(".cinema_player_play").hide();
+		jQuery(".cinema_player_pause").show();
+
+		cinema_player_play();
 	});
 
-	jQuery(".cinema_player_stop").click(function() {
-		cinema_pause();
+	jQuery(".cinema_player_pause").click(function() {
+		player_local = false;	// remote control
+
+		jQuery(".cinema_player_play").show();
+		jQuery(".cinema_player_pause").hide();
+
+		cinema_player_pause();
 	});
+
+	// activate preview button
+	// jQuery(".cinema_player_play").show();
 
 	// add chat button
 	jQuery("#cinema_chat_hide").click(function() {
 		cinema_chat_unfold();
 	});
 
+	// fullscreen toggle
+	jQuery("#cinema_fullscreen_button").click(function() {
+
+		// switch to fullscreen
+		if (jQuery(this).hasClass("cinema_fullscreen_grow")) {
+			cinema_player_fullscreen();
+		}
+
+		else {
+			cinema_player_shrink();
+		}
+
+	});
 
 // cinema_player_fullscreen();
 
@@ -58,15 +88,32 @@ function cinema_player_init(options) {
 // fullscreen
 function cinema_player_fullscreen() {
 
+	// create fullscreen div
 	jQuery('<div id="cinema_fullscreen">&nbsp;</div>').appendTo("body");
+
+	// create placeholdeer
+	jQuery('<div id="cinema_fullscreen_placeholder"></div>').insertBefore("#cinema_wrapper");
 	jQuery('#cinema_wrapper').detach().appendTo('#cinema_fullscreen');
+
+	jQuery('#cinema_fullscreen_button')
+		.removeClass("cinema_fullscreen_grow")
+		.addClass("cinema_fullscreen_shrink");
 }
 
 
 // fullscreen off
-function cinema_player_full_off() {
+function cinema_player_shrink() {
 
-	jQuery('#cinema_wrapper').detach().appendTo('#tplvoe_content');
+	// link back to placeholder
+	jQuery('#cinema_wrapper').detach().insertAfter('#cinema_fullscreen_placeholder');
+
+	// remove placeholder and fullscreen
+	jQuery('#cinema_fullscreen').remove();
+	// jQuery('#cinema_fullscreen_placeholder').remove();
+
+	jQuery('#cinema_fullscreen_button')
+		.removeClass("cinema_fullscreen_shrink")
+		.addClass("cinema_fullscreen_grow");
 }
 
 
@@ -78,7 +125,6 @@ function cinema_player_poll() {
 	if (player_options.uuid) {
 		url += "&uuid=" + player_options.uuid;
 	}
-
 
 	// send ajax request to api
 	jQuery.ajax({
@@ -105,7 +151,9 @@ function cinema_player_poll() {
 					switch(result.status) {
 
 						case "pause":
-							player.pause();
+							if (!player_local) {
+								player.pause();
+							}
 							break;
 
 						case "play":
@@ -117,10 +165,12 @@ function cinema_player_poll() {
 							break;
 					}
 				}
-			}
 
-			// no data > disable
-			else {
+				// no player > clear title
+//TODO get title from options
+				else {
+					cinema_player_title("Das virtuelle Kino");
+				}
 			}
 		}
 	});
@@ -148,7 +198,7 @@ function cinema_player_create_player(data) {
 		width: player_options.width,
 		height: player_options.height,
 		id: data.id,
-		controls: true,
+		controls: false,
 		background: true,
 		loop: false,
 		playsinline: false,
@@ -174,7 +224,6 @@ function cinema_player_create_player(data) {
 	player.on('ended', function(data) {
 		cinema_player_title("Beendet");
 		played = true;
-		// cinema_player_stop();
 	});
 
 		// play on loaded to get remote control access
@@ -186,11 +235,12 @@ function cinema_player_create_player(data) {
 
 function cinema_player_play() {
     player.play();
+	player.setVolume(1);
 }
 
 
 function cinema_player_pause() {
-    player.pause();
+	player_local = false;	// remote control
 }
 
 function cinema_player_stop() {
@@ -200,9 +250,15 @@ function cinema_player_stop() {
 
 function cinema_player_title(text) {
 
-	player.getVideoTitle().then(function(title) {
-		jQuery(".cinema_player_title").html(title + " " + text);
-	});
+	if (player) {		
+		player.getVideoTitle().then(function(title) {
+			jQuery(".cinema_player_title").html(title + " " + text);
+		});
+	}
+
+	else {
+		jQuery(".cinema_player_title").html(text);
+	}
 }
 
 
@@ -364,11 +420,34 @@ function cinema_host_init(options) {
 	})
 
 	jQuery(".cinema_host_load").click(function() {
-		cinema_host_send("set", {id: 329757457, status: "pause"});
+
+		id = jQuery("input[name=cinema_host_vid]").val();
+
+		if (id) {
+			player_id = id;
+		}
+
+// 329757457
+		cinema_host_send("set", {id: player_id, status: "pause"});
+
+		jQuery(".cinema_player_play").show();
+		jQuery(".cinema_player_pause").hide();
+
+		jQuery("input[name=cinema_host_vid").hide();
 	})
 
 	jQuery(".cinema_host_stop").click(function() {
+
+		player_id = false;
+
 		cinema_host_send("stop", "");
+
+		// hide local play control
+		jQuery(".cinema_player_play").hide();
+		jQuery(".cinema_player_pause").hide();
+
+		// show vid input field
+		jQuery("input[name=cinema_host_vid").show();
 	})
 
 
@@ -397,6 +476,7 @@ function cinema_host_send(action, data) {
 		});
 	}
 
+console.log(url);
 
 	// send ajax request
 	jQuery.ajax({
@@ -404,6 +484,7 @@ function cinema_host_send(action, data) {
 		"dataType": "json",
 		"success": function(result) {
 
+console.log(result);
 			// add options to select
 			if (result != "") {
 				cinema_host_update_screen(result);
@@ -414,7 +495,7 @@ function cinema_host_send(action, data) {
 
 
 function cinema_host_poll() {
-	cinema_host_send("status", "", cinema_host_update_screen);
+	cinema_host_send("status", "");
 }
 
 
@@ -449,14 +530,15 @@ function cinema_host_update_screen(data) {
 			break;
 
 		default:
+			// show load, hide stop and status
 			jQuery(".cinema_host_load").show();
 			jQuery(".cinema_host_vid").hide();
 			jQuery(".cinema_host_stop").hide();
 			jQuery(".cinema_player_status").hide();
 
+			// hide host play control
 			jQuery(".cinema_host_play").hide();
 			jQuery(".cinema_host_pause").hide();
 			break;
 	}
-
 }

@@ -81,8 +81,8 @@ function cinema($name = false, $function = false, $options = []) {
 				$onload .= "cinema_init({
 					'name':'" . $name . "',
 					'uuid':'" . uniqid() . "',
-					'width':'" . 800 . "',
-					'height':'" . 600 . "',
+					'width':'" . 1600 . "',
+					'height':'" . 900 . "',
 					'user':'" . $user . "'
 				});";
 
