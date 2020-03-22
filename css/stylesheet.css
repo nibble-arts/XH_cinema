@@ -24,8 +24,8 @@
 }
 
 #cinema_fullscreen_button {
-	width: 30px;
-	height: 30px;
+	width: 20px;
+	height: 20px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -141,12 +141,17 @@
 
 /* *************************/
 /* VIMEO Player responsive */
+
+#cinema_player_wrapper {
+	position: relative;
+}
+
 .cinema_player_wrapper {
 	position: relative;
 	padding-bottom: 56.25%; /* Default for 1600x900 videos 16:9 ratio*/
 	padding-top: 0px;
 	height: 0;
-	overflow: hidden;
+	border: 1px solid black;
 }
 
 .cinema_player_wrapper iframe {

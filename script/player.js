@@ -277,8 +277,8 @@ class Player {
 		jQuery('<div id="cinema_fullscreen">&nbsp;</div>').appendTo("body");
 
 		// create placeholdeer
-		jQuery('<div id="cinema_fullscreen_placeholder"></div>').insertBefore("#cinema_wrapper");
-		jQuery('#cinema_wrapper').detach().appendTo('#cinema_fullscreen');
+		jQuery('<div id="cinema_fullscreen_placeholder"></div>').insertBefore("#cinema_player_wrapper");
+		jQuery('#cinema_player_wrapper').detach().appendTo('#cinema_fullscreen');
 
 		jQuery('#cinema_fullscreen_button')
 			.removeClass("cinema_fullscreen_grow")
@@ -291,7 +291,7 @@ class Player {
 	shrink() {
 
 		// link back to placeholder
-		jQuery('#cinema_wrapper').detach().insertAfter('#cinema_fullscreen_placeholder');
+		jQuery('#cinema_player_wrapper').detach().insertAfter('#cinema_fullscreen_placeholder');
 
 		// remove placeholder and fullscreen
 		jQuery('#cinema_fullscreen').remove();

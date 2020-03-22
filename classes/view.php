@@ -8,11 +8,13 @@ class View {
 
 		$o = "";
 
-		$o .= '<div id="cinema_wrapper">';
 
-			$o .= '<div id="cinema_fullscreen_button" class="cinema_fullscreen_grow"></div>';
+		$o .= '<div id="cinema_player_wrapper">';
 
 			$o .= '<div class="cinema_player_title">' . Text::title() . '</div>';
+	
+			$o .= '<div id="cinema_fullscreen_button" class="cinema_fullscreen_grow"></div>';
+
 
 			// CREATE PLAYER
 			$o .= '<div class="cinema_player_wrapper">';
