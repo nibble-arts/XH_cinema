@@ -41,16 +41,6 @@ class Status {
 		self::$status["id"] = "";
 		self::$status["status"] = "stop";
 		self::$status["duration"] = "";
-		
-		/*self::$status = [
-			"id" => "",
-			"status" => "stop",
-			"name" => "",
-			"user" => "",
-			"duration" => "",
-			"timestamp" => "",
-			"clients" => ""
-		];*/
 
 	}
 

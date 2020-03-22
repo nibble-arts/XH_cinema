@@ -17,6 +17,7 @@ class Player {
 
 		// vimeo player
 		this.player = false;
+		this.position = false;
 
 		this.player_local = false;	// remote control
 		this.played = false;
@@ -54,6 +55,11 @@ class Player {
 		// fullscreen toggle
 		jQuery("#cinema_fullscreen_button").click(function() {
 
+			// get position
+			if (self.player) {
+
+			}
+
 			// force stop
 			self.stop();
 
@@ -80,6 +86,7 @@ class Player {
 		var self = this;
 		var url = "?cinema_action=status&name=" + this.name + "&user=" + this.user;
 
+		// add uuid to url
 		if (this.options.uuid) {
 			url += "&uuid=" + this.options.uuid;
 		}
@@ -117,15 +124,13 @@ class Player {
 								break;
 
 							case "play":
-
 								// play if not played
-								if (!self.played) {
+								if (!self.played) {							
 									self.player.play();
 								}
 								break;
 
 							case "replay":
-
 								self.player.play();
 								break;
 						}
@@ -171,6 +176,11 @@ class Player {
 		// set player events
 		this.player.on('play', function() {
 			self.title("(spielt)");
+
+			// // important, when toggle fullscreen
+			if (self.position !== false) {
+				self.player.setCurrentTime(self.position);
+			}		
 	    });
 
 		this.player.on('pause', function() {
@@ -178,7 +188,7 @@ class Player {
 	    });
 
 		this.player.on('ended', function(data) {
-			self.title("Beendet");
+			self.title("(Beendet)");
 			self.played = true;
 		});
 
@@ -192,6 +202,12 @@ class Player {
 	play() {
 	    this.player.play();
 		this.player.setVolume(1);
+
+		// jump to last position
+		// important, when toggle fullscreen
+		// if (this.position !== false) {
+		// 	this.player.setCurrentTime(this.position);
+		// }		
 	}
 
 	pause() {
@@ -199,14 +215,36 @@ class Player {
 	}
 
 	stop() {
-		this.player.destroy();
-		this.player = "";
+		if (this.player) {		
+			this.player.destroy();
+			this.player = "";
+		}
 	}
 
 
 	// ==========================================
 	// update status screen
 	update(data) {
+
+		self = this;
+
+		// check ended
+		this.player.getEnded().then(function (ended) {
+
+			// reset position on end
+			if (ended) {
+				self.position = false;
+			}
+
+			else {
+				self.position = data.seconds;
+			}
+		});
+
+		// reset position
+		// else {
+		// }
+		// update player status
 
 		if (data.seconds) {
 			jQuery(".cinema_player_status").html(parseInt(data.seconds) + " sek. - Länge: " + parseInt(data.duration));
