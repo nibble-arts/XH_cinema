@@ -7,7 +7,6 @@ class Program {
 	private $name;
 	private $path = false;
 	private $program = [];
-	private $status;
 
 
 	// create the cinema object
@@ -16,12 +15,11 @@ class Program {
 	public function __construct($name) {
 
 		$this->name = $name;
-
 		$this->reset();
-
 		$this->path = Config::path_program();
 
 		// check for directory
+		// create if it don't exists
 		if (!file_exists($this->path)) {
 
 			if (!mkdir($this->path, 0666, true)) {
@@ -30,24 +28,13 @@ class Program {
 				Message::failure("failure_mk_program_dir");
 			}
 		}
-
+		
+		// load program
 		$this->load();
-		$this->status();
 	}
 
 
 	public function reset() {
-
-		$this->status = [
-			"id" => "",
-			"status" => "stop",
-			"name" => "",
-			"user" => "",
-			"uuid" => "",
-			"duration" => "",
-			"timestamp" => ""
-		];
-
 	}
 
 
@@ -69,57 +56,58 @@ class Program {
 	}
 
 
-	// set a new status
-	// write to file
-	public function set($key, $value) {
-		$this->status[$key] = $value;
+	// add a new program entry
+	public function add($value) {
+		
+		$this->program[] = $value;
+		$this->write();
 	}
 
 
-	public function clear($key) {
+	// remove a entry by key
+	public function remove($key) {
 
-		if (isset($this->status[$key])) {
-			unset($this->status[$key]);
+		if (isset($this->program[$key])) {
+			unset($this->program[$key]);
 		}
 
 	}
 
 
+// remove a entry by value
+	public function remove($value) {
+
+		if (($pos = array_search($value, $this->program) !== false) {
+			unset($this->program[$pos]);
+		}
+
+	}
+
+	// return a program by key
 	public function get($key) {
 
-		if (isset($this->status[$key])) {
-			return $this->status[$key];
+		if (isset($this->program[$key])) {
+			return $this->program[$key];
 		}
 
 		return false;
 	} 
 
 
-	// write status file
+	// write program file
 	public function write() {
 
 		// update timestamp
 		$this->status["timestamp"] = time();
 
-		file_put_contents(Path::create([$this->path, $this->name . ".status.ini"]), Array2Ini::serialize($this->status));
-
-		// copy(Path::create([$this->path, $this->name . ".status.new"]), Path::create([$this->path, $this->name . ".status.ini"]));
+		file_put_contents(Path::create([$this->path, $this->name . ".ini"]), Array2Ini::serialize($this->program));
 	}
 
 
-	// load the status of a program
-	public function status() {
+	// return the program as array
+	public function program() {
 
-		$path = Path::create([$this->path, $this->name . ".status.ini"]);
-
-		if ($this->path) {
-
-			if (file_exists($path)) {
-				$this->status = parse_ini_file($path, true);
-			}
-		}
-
-		return ["status" => $this->status];
+		return ["program" => $this->program];
 	}
 
 

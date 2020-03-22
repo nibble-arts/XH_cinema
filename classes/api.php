@@ -6,14 +6,14 @@ class Api {
 
 	public static function fetch() {
 
-		$result = false;
-
+		$result = [];
 
 		if (Session::param("cinema_action") && ($name = Session::param("name"))) {
 
-			// init register
+			// init classes
 			Register::init($name);
 			Chat::init($name);
+			Status::init($name);
 
 			// register uuid
 			if (Session::param("uuid")) {
@@ -21,9 +21,8 @@ class Api {
 			}
 
 
-			// load program and add count of registered
-			$program = new Program(Session::param("name"));
-			$program->set("clients", Register::registered());
+			// add count of registered to status
+			Status::set("clients", Register::registered());
 
 
 			// select action
@@ -32,30 +31,29 @@ class Api {
 				// send status
 				case "status":
 
-					$result = $program->status();
+					$result = Status::status();
 					break;
 
 				// set value
 				case "set":
-					if ($program) {
 						
-						Session::remove_param("cinema_action");
+					Session::remove_param("cinema_action");
 
-						// set parameters in program status
-						foreach (Session::get_param_keys() as $key) {
-							$program->set($key, Session::param($key));
-						}
-
-						$program->write();
+					// set parameters in status
+					foreach (Session::get_param_keys() as $key) {
+						Status::set($key, Session::param($key));
 					}
 
-					$result = $program->status();
+					// write new status
+					Status::write();
+
+					$result = Status::status();
 					break;
 
 				// stop
 				case "stop":
-					$program->reset();
-					$program->write();
+					Status::reset();
+					Status::write();
 					break;
 
 				// chat
@@ -73,10 +71,11 @@ class Api {
 			}
 
 			// reset when no id
-			if (!$program->get("id")) {
+			if (!Status::get("id")) {
 
-				$program->reset();
-				$result = $program->status();
+				Status::reset();
+				Status::write();
+				$result = Status::status();
 			}
 
 

@@ -66,7 +66,7 @@ class Register {
 
 		// write to ini file
 		if (self::$registered) {
-			file_put_contents(self::$path, Array2ini::serialize(self::$registered));
+			file_put_contents(self::$path, Array2ini::serialize(self::$registered), true);
 		}
 	}
 }
