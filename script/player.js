@@ -54,6 +54,9 @@ class Player {
 		// fullscreen toggle
 		jQuery("#cinema_fullscreen_button").click(function() {
 
+			// force stop
+			self.stop();
+
 			// switch to fullscreen
 			if (jQuery(this).hasClass("cinema_fullscreen_grow")) {
 				self.fullscreen();
@@ -136,14 +139,13 @@ class Player {
 				}
 			}
 		});
-
-		console.log(self.played);
 	}
 
 
 	// ==========================================
 	// VIMEO PLAYER SECTION
 	create_player(data) {
+
 
 //TODO set from program configuration
 		var self = this;
@@ -243,6 +245,7 @@ class Player {
 		jQuery('#cinema_fullscreen_button')
 			.removeClass("cinema_fullscreen_grow")
 			.addClass("cinema_fullscreen_shrink");
+
 	}
 
 
