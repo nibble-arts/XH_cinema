@@ -1,12 +1,20 @@
-// ==========================================================================
-// init cinema plugin scripts
+/* CMSimple_XH plugin
+ * cinema
+ * start twitch embed and chat
+ * (c) 2018 Thomas Winkler
+ *
+ */
 
 function cinema_init(options) {
 
-	// if logged, add chat and host capabilities
-	chat = new Chat(options);
-	host = new Host(options);
+	new Chat(options);
+	// new Twitch(options);
 
-	player = new Player(options);
+	new Twitch.Embed("twitch-embed", {
+		width: 854,
+		height: 480,
+		channel: options.name,
+		layout: "video"
+	});
 
 }

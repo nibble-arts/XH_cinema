@@ -22,6 +22,8 @@ class Chat {
 
 		this.last_read = 0;
 
+		// create chat
+		this.create("cinema_chat");
 
 		// show if user
 		if (this.user) {
@@ -50,6 +52,17 @@ class Chat {
 				self.unfold();
 			});
 		}
+	}
+
+
+	create(root) {
+
+		var chat = jQuery("#" + root);
+
+		chat.append('<div id="' + root + '_hide" class="' + root + '_button"></div>');
+		chat.append('<div class="' + root + '_text">Nachricht <input type="text" class="' + root + '_input"></div>');
+		chat.append('<div class="' + root + '_list">');
+
 	}
 
 

@@ -50,18 +50,22 @@ function cinema($name = false, $function = false, $options = []) {
 			$user = ma\Access::user("username");
 		}
 
-		// $o .= '<script src="https://player.vimeo.com/api/player.js"></script>';
 
-		// $o .= '<script src="' . CINEMA_PLUGIN_BASE . 'script/vimeo/player.js"></script>';
+	    // Load the Twitch embed script
+	    $o .= '<script src="https://embed.twitch.tv/embed/v1.js"></script>';
 
-		// include javascript
-		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/cinema.js"></script>';
-
+		// Include Chat script
 		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/chat.js"></script>';
 
-		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/host.js"></script>';
+		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/cinema.js"></script>';
 
-		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/player.js"></script>';
+
+		// add to onload
+		$onload .= "cinema_init({
+			'name':'" . $name . "',
+			'user':'" . $user . "'
+		});";
+
 
 		// switch function
 		switch ($function) {
@@ -69,32 +73,13 @@ function cinema($name = false, $function = false, $options = []) {
 			// show host view
 			case "host":
 
-				// add to onload
-				$onload .= "cinema_init({
-					'name':'" . $name . "',
-					'uuid':'',
-					'width':'" . 400 . "',
-					'height':'" . 300 . "',
-					'user':'" . $user . "'
-				});";
-
 				$o .= cinema\View::host($name);
 				break;
 
-			// show program window
+			// show viewer view
 			default:
 
-				// add to onload
-				$onload .= "cinema_init({
-					'name':'" . $name . "',
-					'uuid':'" . uniqid() . "',
-					'width':'" . 1600 . "',
-					'height':'" . 900 . "',
-					'user':'" . $user . "'
-				});";
-
-				$o .= cinema\View::cinema($name, $user);
-
+				$o .= cinema\View::twitch($name, $user);
 				break;
 				
 		}

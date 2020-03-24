@@ -4,6 +4,25 @@ namespace cinema;
 
 class View {
 
+	public static function twitch($name) {
+
+		$o = "";
+
+		$o .= '<div id="cinema_player_wrapper">';
+
+			$o .= '<div class="cinema_player_wrapper">';
+				$o = '<div id="twitch-embed"></div>';
+			$o .= '</div>';
+
+		$o .= '</div>';
+
+		// CHAT section
+		$o .= '<div id="cinema_chat" class="cinema_chat"></div>';
+
+	    return $o;
+	}
+
+
 	public static function cinema($name) {
 
 		$o = "";
