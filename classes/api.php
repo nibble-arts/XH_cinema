@@ -34,7 +34,6 @@ class Api {
 					$result = Chat::get();
 
 					$result["status"] = Register::registered();
-debug($result);
 
 					echo json_encode($result);
 					die();

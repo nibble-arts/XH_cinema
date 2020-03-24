@@ -19,20 +19,23 @@ class Chat {
 
 		this.user = options.user;
 		this.name = options.name;
+		this.uuid = options.uuid;
+
+		this.root = "cinema_chat";
 
 		this.last_read = 0;
 
 		// create chat
-		this.create("cinema_chat");
+		this.create(this.root);
 
 		// show if user
 		if (this.user) {
 
 			// show chat
-			jQuery(".cinema_chat").show();
+			jQuery("." + this.root).show();
 
 			// wait for ENTER
-			jQuery(".cinema_chat_input").keypress(function (e) {
+			jQuery("."+this.root+"_input").keypress(function (e) {
 
 				if (e.which == 13) {
 
@@ -48,7 +51,7 @@ class Chat {
 
 
 			// add chat button
-			jQuery("#cinema_chat_hide").click(function() {
+			jQuery("#"+this.root+"_hide").click(function() {
 				self.unfold();
 			});
 		}
@@ -72,7 +75,7 @@ class Chat {
 	chat_get() {
 
 		var self = this;
-		var url = "?cinema_action=chat&name=" + this.name;
+		var url = "?cinema_action=chat&name=" + this.name + "&uuid=" + this.uuid;
 
 		// send ajax request
 		jQuery.ajax({
@@ -93,7 +96,7 @@ class Chat {
 	// send new message to api
 	chat_post(data) {
 
-		var url = "?cinema_action=chat&name=" + this.name + "&user=" + this.user;
+		var url = "?cinema_action=chat&name=" + this.name + "&user=" + this.user + "&uuid=" + this.uuid;
 
 		if (data) {	
 			jQuery.each(data, function (k, v) {
@@ -149,7 +152,7 @@ class Chat {
 				htmlString += message.text + '</div>';
 
 				// prepend to list
-				jQuery(".cinema_chat_list").prepend(htmlString);
+				jQuery("."+this.root+"_list").prepend(htmlString);
 
 				self.set_new();
 
@@ -167,17 +170,17 @@ class Chat {
 	// HIDE AND SHOW chat
 	unfold() {
 
-		var width = jQuery("#cinema_chat").css("width");
+		var width = jQuery("#"+this.root).css("width");
 
 		// clear new state
 		this.clear_new();
 
 		// show chat
-		if (jQuery("#cinema_chat").css("right") == "0px") {
-			jQuery("#cinema_chat").css("right", "-"+width);
+		if (jQuery("#"+this.root).css("right") == "0px") {
+			jQuery("#"+this.root).css("right", "-"+width);
 		}
 		else {
-			jQuery("#cinema_chat").css("right", 0);
+			jQuery("#"+this.root).css("right", 0);
 		}
 	}
 
@@ -187,15 +190,15 @@ class Chat {
 	set_new() {
 
 		// if folded > show new
-		if (jQuery("#cinema_chat").css("right") != "0px") {
-			jQuery("#cinema_chat_hide").removeClass("cinema_chat_button");
-			jQuery("#cinema_chat_hide").addClass("cinema_chat_new");
+		if (jQuery("#"+this.root).css("right") != "0px") {
+			jQuery("#"+this.root+"_hide").removeClass(this.root+"_button");
+			jQuery("#"+this.root+"_hide").addClass(this.root+"_new");
 		}
 	}
 
 
 	clear_new() {
-		jQuery("#cinema_chat_hide").addClass("cinema_chat_button");
-		jQuery("#cinema_chat_hide").removeClass("cinema_chat_new");
+		jQuery("#"+this.root+"_hide").addClass(this.root+"_button");
+		jQuery("#"+this.root+"_hide").removeClass(this.root+"_new");
 	}
 }

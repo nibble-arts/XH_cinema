@@ -63,7 +63,8 @@ function cinema($name = false, $function = false, $options = []) {
 		// add to onload
 		$onload .= "cinema_init({
 			'name':'" . $name . "',
-			'user':'" . $user . "'
+			'user':'" . $user . "',
+			'uuid':'" . uniqid() . "'
 		});";
 
 
