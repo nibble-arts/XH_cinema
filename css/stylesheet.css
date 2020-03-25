@@ -80,6 +80,11 @@
 	width: 300px;
 }
 
+.cinema_chat_count {
+	float: left;
+	font-size: 80%;
+}
+
 .cinema_chat_text {
 	margin: 0 0 5px 0;
 	width: 100%;

@@ -23,12 +23,12 @@ class Register {
 
 
 	// update uuid
-	public static function update($uuid) {
+	public static function update($uuid, $user) {
 
 		self::load();
 
 		if (is_array(self::$registered)) {
-			self::$registered[$uuid] = time();
+			self::$registered[$uuid] = ["time" => time(), "user" => $user];
 		}
 
 		self::clean();
@@ -42,7 +42,7 @@ class Register {
 		foreach (self::$registered as $uuid => $time) {
 
 			// timeout -> clear entry
-			if ($time < time() - intval(Config::register_timeout())) {
+			if ($time["time"] < time() - intval(Config::register_timeout())) {
 				unset(self::$registered[$uuid]);
 			}
 		}
@@ -55,9 +55,31 @@ class Register {
 	}
 
 
+	// get array of registered users
+	public static function users() {
+
+		$users = [];
+
+		if (self::$registered) {
+
+			foreach (self::$registered as $entry) {
+
+				if (!in_array($entry["user"], $users)) {
+					$users[] = $entry["user"];
+				}
+			}
+
+		}
+
+		sort($users);
+
+		return $users;
+	}
+
+
 	// load register
 	private static function load() {
-		self::$registered = parse_ini_file(self::$path);
+		self::$registered = parse_ini_file(self::$path, true);
 	}
 
 

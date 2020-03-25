@@ -21,6 +21,8 @@ class Chat {
 		this.name = options.name;
 		this.uuid = options.uuid;
 
+		this.lang = options.text;
+
 		this.root = "cinema_chat";
 
 		this.last_read = 0;
@@ -32,10 +34,10 @@ class Chat {
 		if (this.user) {
 
 			// show chat
-			jQuery("." + this.root).show();
+			jQuery("." + self.root).show();
 
 			// wait for ENTER
-			jQuery("."+this.root+"_input").keypress(function (e) {
+			jQuery("."+self.root+"_input").keypress(function (e) {
 
 				if (e.which == 13) {
 
@@ -63,7 +65,7 @@ class Chat {
 		var chat = jQuery("#" + root);
 
 		chat.append('<div id="' + root + '_hide" class="' + root + '_button"></div>');
-		chat.append('<div class="' + root + '_text">Nachricht <input type="text" class="' + root + '_input"></div>');
+		chat.append('<div class="' + root + '_text"><div class="' + root + '_count"></div>' + this.text(this, "message") + ' <input type="text" class="' + root + '_input"></div>');
 		chat.append('<div class="' + root + '_list">');
 
 	}
@@ -75,7 +77,7 @@ class Chat {
 	chat_get() {
 
 		var self = this;
-		var url = "?cinema_action=chat&name=" + this.name + "&uuid=" + this.uuid;
+		var url = "?cinema_action=chat&name=" + this.name + "&uuid=" + this.uuid + "&user=" + this.user;
 
 		// send ajax request
 		jQuery.ajax({
@@ -85,7 +87,7 @@ class Chat {
 
 				// add options to select
 				if (result.chat != "") {
-					self.update_list(self, result.chat);
+					self.update_list(self, result);
 				}
 			}
 		});
@@ -124,9 +126,20 @@ class Chat {
 
 		var last;
 
+		// add user count
+		var count_string = data.status + " " + self.text(self, "users");
+		jQuery("."+self.root+"_count").html(count_string);
+
+		var users = "";
+
+		jQuery.each(data.users, function (idx, user) {
+			users += user + "\n";
+		});
+
+		jQuery("."+self.root+"_count").attr("title", self.text(self, "logged_users") + "\n\n" + users);
 
 		// check for new messages
-		jQuery.each(data, function(idx, message) {
+		jQuery.each(data.chat, function(idx, message) {
 
 			// add new messages
 			if (parseInt(idx) > parseInt(self.last_read)) {
@@ -152,7 +165,7 @@ class Chat {
 				htmlString += message.text + '</div>';
 
 				// prepend to list
-				jQuery("."+this.root+"_list").prepend(htmlString);
+				jQuery("."+self.root+"_list").prepend(htmlString);
 
 				self.set_new();
 
@@ -200,5 +213,18 @@ class Chat {
 	clear_new() {
 		jQuery("#"+this.root+"_hide").addClass(this.root+"_button");
 		jQuery("#"+this.root+"_hide").removeClass(this.root+"_new");
+	}
+
+
+	// get text
+	text(self, text_id) {
+
+		if (self.lang != undefined && self.lang[text_id]) {
+			return self.lang[text_id];
+		}
+
+		else {
+			return text_id;
+		}
 	}
 }

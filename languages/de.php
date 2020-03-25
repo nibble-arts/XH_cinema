@@ -12,5 +12,8 @@ $plugin_tx['cinema']['cf_moderate_group'] = "Memberaccess Gruppe für Moderatore
 $plugin_tx['cinema']['cf_path_program'] = "Pfad für Programme";
 $plugin_tx['cinema']['cf_path_result'] = "Pfad für Bewertungen";
 
+$plugin_tx['cinema']['js_users'] = "anwesend";
+$plugin_tx['cinema']['js_message'] = "Nachricht";
+$plugin_tx['cinema']['js_logged_users'] = "Anwesende Nutzer";
 
 ?>

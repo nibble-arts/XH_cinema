@@ -16,7 +16,7 @@ class Api {
 
 			// register uuid
 			if (Session::param("uuid")) {
-				Register::update(Session::get("uuid"));
+				Register::update(Session::get("uuid"), Session::get("user"));
 			}
 
 
@@ -34,6 +34,7 @@ class Api {
 					$result = Chat::get();
 
 					$result["status"] = Register::registered();
+					$result["users"] = Register::users();
 
 					echo json_encode($result);
 					die();

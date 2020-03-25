@@ -60,13 +60,31 @@ function cinema($name = false, $function = false, $options = []) {
 		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/cinema.js"></script>';
 
 
-		// add to onload
-		$onload .= "cinema_init({
-			'name':'" . $name . "',
-			'user':'" . $user . "',
-			'uuid':'" . uniqid() . "'
-		});";
+		// get js text
+		$text = cinema\Text::array();
+		$js_text = [];
 
+		// collect messages and remove prefix
+		foreach ($text as $key => $line) {
+
+			if (strpos($key, "js_") !== false) {
+				$js_text[substr($key, 3)] = $line;
+			}
+
+		}
+
+		// options for script start
+		$options = json_encode(
+			[
+				"text" => $js_text,
+				"name" => $name,
+				"user" => $user,
+				"uuid" => uniqid()
+			]
+		);
+
+		// add to onload
+		$onload .= str_replace("\"", "'", 'cinema_init(' . $options . ');');
 
 		// switch function
 		switch ($function) {

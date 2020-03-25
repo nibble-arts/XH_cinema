@@ -36,6 +36,12 @@ class Text {
 			return $code;
 		}
 	}
+
+
+	// get text array
+	public static function array() {
+		return self::$text;
+	}
 }
 
 ?>
