@@ -64,9 +64,27 @@ class Chat {
 
 		var chat = jQuery("#" + root);
 
-		chat.append('<div id="' + root + '_hide" class="' + root + '_button"></div>');
-		chat.append('<div class="' + root + '_text"><div class="' + root + '_count"></div>' + this.text(this, "message") + ' <input type="text" class="' + root + '_input"></div>');
-		chat.append('<div class="' + root + '_list">');
+		// get display type
+		switch (chat.attr("type")) {
+
+			case "inline":
+				// add inline class
+				chat.addClass("cinema_chat_inline");
+
+				chat.append('<div class="' + root + '_text"><div class="' + root + '_count"></div>' + this.text(this, "message") + ' <input type="text" class="' + root + '_input"></div>');
+				chat.append('<div class="' + root + '_list">');
+				break;
+
+			// popup for default
+			default:
+				// add popup class
+				chat.addClass("cinema_chat");
+
+				chat.append('<div id="' + root + '_hide" class="' + root + '_button"></div>');
+				chat.append('<div class="' + root + '_text"><div class="' + root + '_count"></div>' + this.text(this, "message") + ' <input type="text" class="' + root + '_input"></div>');
+				chat.append('<div class="' + root + '_list">');
+				break;
+		}
 
 	}
 
@@ -131,12 +149,19 @@ class Chat {
 		jQuery("."+self.root+"_count").html(count_string);
 
 		var users = "";
+		var title = "";
 
+		// add user list
 		jQuery.each(data.users, function (idx, user) {
+			title += user + "<br>";
 			users += user + "\n";
 		});
 
-		jQuery("."+self.root+"_count").attr("title", self.text(self, "logged_users") + "\n\n" + users);
+		// add mouseover for count
+		jQuery("."+self.root+"_count").attr("title", users);
+
+		// add list of users
+		jQuery("."+self.root+"_users").html(self.text(self, "logged_users") + "<hr>" + title);
 
 		// check for new messages
 		jQuery.each(data.chat, function(idx, message) {
