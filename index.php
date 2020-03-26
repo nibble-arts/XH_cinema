@@ -57,6 +57,9 @@ function cinema($name = false, $function = false, $options = []) {
 		// Include Chat script
 		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/chat.js"></script>';
 
+		// Include Chat script
+		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/player.js"></script>';
+
 		$o .= '<script type="text/javascript" src="' . CINEMA_PLUGIN_BASE . 'script/cinema.js"></script>';
 
 

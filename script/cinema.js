@@ -8,7 +8,11 @@
 function cinema_init(options) {
 
 	new Chat(options);
-	// new Twitch(options);
+	new Player(options);
+
+}
+
+function create_player(options) {
 
 	new Twitch.Embed("twitch-embed", {
 		width: 854,
@@ -16,5 +20,4 @@ function cinema_init(options) {
 		channel: options.name,
 		layout: "video"
 	});
-
 }
