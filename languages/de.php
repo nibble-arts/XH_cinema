@@ -19,4 +19,6 @@ $plugin_tx['cinema']['js_logged_users'] = "Anwesende Nutzer";
 $plugin_tx['cinema']['player_title'] = "Das virtuelle Kino";
 $plugin_tx['cinema']['host_title'] = "Moderator Seite";
 
+$plugin_tx['cinema']['default_title'] = "Das virtuelle Kino";
+
 ?>

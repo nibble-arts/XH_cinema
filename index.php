@@ -41,7 +41,6 @@ function cinema($name = false, $function = false, $options = []) {
 
 	if ($name) {
 
-
 		// memberaccess integration
 		// host group found
 		// if (class_exists("ma\Access") && ma\Access::user() && ma\Groups::user_is_in_group(ma\Access::user()->username(), cinema\Config::config("host_group"))) {
@@ -76,6 +75,16 @@ function cinema($name = false, $function = false, $options = []) {
 
 		}
 
+
+		// add page title
+		if (isset($options["title"])) {
+			$title = $options["title"];
+		}
+		else {
+			$title = cinema\Text::default_title();
+		}
+
+
 		// options for script start
 		$options = json_encode(
 			[
@@ -86,6 +95,7 @@ function cinema($name = false, $function = false, $options = []) {
 			]
 		);
 
+
 		// add to onload
 		$onload .= str_replace("\"", "'", 'cinema_init(' . $options . ');');
 
@@ -95,13 +105,13 @@ function cinema($name = false, $function = false, $options = []) {
 			// show host view
 			case "host":
 
-				$o .= cinema\View::host($name);
+				$o .= cinema\View::host($name, $title);
 				break;
 
 			// show viewer view
 			default:
 
-				$o .= cinema\View::twitch($name, $user);
+				$o .= cinema\View::twitch($name, $title);
 				break;
 				
 		}

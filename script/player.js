@@ -14,7 +14,7 @@ class Player {
 	constructor(options) {
 
 		var self = this;
-		this.options = options; 
+		this.options = options;
 
 		// fullscreen toggle
 		jQuery("#cinema_fullscreen_button").click(function() {
@@ -27,7 +27,6 @@ class Player {
 			else {
 				self.shrink(self);
 			}
-
 		});
 
 
@@ -44,16 +43,21 @@ class Player {
 	fullscreen(self) {
 
 		// create fullscreen div
-		jQuery('<div id="cinema_fullscreen">&nbsp;</div>').appendTo("body");
+		jQuery('<div id="cinema_fullscreen"></div>').appendTo("body");
 
 		// create placeholdeer
 		jQuery('<div id="cinema_fullscreen_placeholder"></div>').insertBefore("#cinema_player_wrapper");
+
 		jQuery('#cinema_player_wrapper').detach().appendTo('#cinema_fullscreen');
 
 		jQuery('#cinema_fullscreen_button')
 			.removeClass("cinema_fullscreen_grow")
 			.addClass("cinema_fullscreen_shrink");
 
+		// hide scrollbar
+		jQuery('body').attr("style", "overflow: hidden;");
+
+		// recreate player
 		create_player(self.options);
 	}
 
@@ -72,6 +76,10 @@ class Player {
 			.removeClass("cinema_fullscreen_shrink")
 			.addClass("cinema_fullscreen_grow");
 
+		// show scrollbar
+		jQuery('body').removeAttr("style", "overflow: hidden;");
+
+		// recreate player
 		create_player(self.options);
 	}
 

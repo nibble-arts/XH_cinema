@@ -4,15 +4,16 @@ namespace cinema;
 
 class View {
 
-	public static function twitch($name) {
+	public static function twitch($name, $title) {
 
 		// TITLE
 
 
 		// player
-		$o .= '<div id="cinema_player_wrapper">';
-			$o = '<div class="cinema_host_title">';
-				$o .= Text::player_title();
+		$o = '<div id="cinema_player_wrapper">';
+
+			$o .= '<div class="cinema_host_title">';
+				$o .= $title;
 			$o .= '</div>';
 
 			$o .= '<div id="cinema_fullscreen_button" class="cinema_fullscreen_grow"></div>';
@@ -20,6 +21,7 @@ class View {
 			$o .= '<div class="cinema_player_wrapper">';
 				$o .= '<div id="twitch-embed"></div>';
 			$o .= '</div>';
+
 		$o .= '</div>';
 
 
@@ -30,11 +32,11 @@ class View {
 	}
 
 
-	public static function host($name) {
+	public static function host($name, $title) {
 
 		// TITLE
 		$o = '<div class="cinema_host_title">';
-			$o .= Text::host_title();
+			$o .= $title;
 		$o .= '</div>';
 
 		// player

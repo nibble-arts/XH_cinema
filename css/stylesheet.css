@@ -10,9 +10,8 @@
 	z-index: 100000;
 	vertical-align: middle;
 	text-align: center;
-	background-color: green;
+	background-color: black;
 	color: white;
-	overflow: hidden;
 }
 
 .cinema_fullscreen_grow {
@@ -178,7 +177,6 @@
 	padding-bottom: 56.25%;
 	padding-top: 0px;
 	height: 0;
-	/*border: 1px solid black;*/
 }
 
 .cinema_player_wrapper iframe {
