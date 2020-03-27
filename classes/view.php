@@ -7,12 +7,10 @@ class View {
 	public static function twitch($name, $title) {
 
 		// TITLE
-
-
 		// player
 		$o = '<div id="cinema_player_wrapper">';
 
-			$o .= '<div class="cinema_host_title">';
+			$o .= '<div class="cinema_title">';
 				$o .= $title;
 			$o .= '</div>';
 
@@ -35,7 +33,7 @@ class View {
 	public static function host($name, $title) {
 
 		// TITLE
-		$o = '<div class="cinema_host_title">';
+		$o = '<div class="cinema_title">';
 			$o .= $title;
 		$o .= '</div>';
 

@@ -42,6 +42,9 @@ class Player {
 	// toggle fullscreen
 	fullscreen(self) {
 
+		// set player class to fullscreen
+		jQuery('.cinema_player_wrapper').addClass('cinema_player_wrapper_fullscreen');
+
 		// create fullscreen div
 		jQuery('<div id="cinema_fullscreen"></div>').appendTo("body");
 
@@ -54,8 +57,9 @@ class Player {
 			.removeClass("cinema_fullscreen_grow")
 			.addClass("cinema_fullscreen_shrink");
 
-		// hide scrollbar
+		// hide scrollbar and title
 		jQuery('body').attr("style", "overflow: hidden;");
+		jQuery('.cinema_title').hide();
 
 		// recreate player
 		create_player(self.options);
@@ -64,6 +68,9 @@ class Player {
 
 	// fullscreen off
 	shrink(self) {
+
+		// set player class to normal
+		jQuery('.cinema_player_wrapper_fullscreen').removeClass('cinema_player_wrapper_fullscreen');
 
 		// link back to placeholder
 		jQuery('#cinema_player_wrapper').detach().insertAfter('#cinema_fullscreen_placeholder');
@@ -76,8 +83,9 @@ class Player {
 			.removeClass("cinema_fullscreen_shrink")
 			.addClass("cinema_fullscreen_grow");
 
-		// show scrollbar
+		// show scrollbar and title
 		jQuery('body').removeAttr("style", "overflow: hidden;");
+		jQuery('.cinema_title').show();
 
 		// recreate player
 		create_player(self.options);
