@@ -101,6 +101,7 @@ class Program {
 		$this->status["timestamp"] = time();
 
 		file_put_contents(Path::create([$this->path, $this->name . ".ini"]), Array2Ini::serialize($this->program));
+		chmod(Path::create([$this->path, $this->name . ".ini"]), 0664);
 	}
 
 

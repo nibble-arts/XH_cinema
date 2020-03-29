@@ -40,6 +40,7 @@ class Chat {
 
 		// write message to file
 		file_put_contents(self::$path, Array2ini::serialize($chat));
+		chmod(self::$path, 0664);
 	}
 
 

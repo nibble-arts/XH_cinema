@@ -18,6 +18,7 @@ class View {
 
 			$o .= '<div class="cinema_player_wrapper">';
 				$o .= '<div id="twitch-embed"></div>';
+				$o .= '<div id="youtube-embed"></div>';
 			$o .= '</div>';
 
 		$o .= '</div>';
@@ -40,6 +41,7 @@ class View {
 		// player
 		$o .= '<div id="cinema_host_wrapper">';
 			$o .= '<div class="cinema_host_wrapper" id="twitch-embed"></div>';
+			$o .= '<div class="cinema_host_wrapper" id="youtube-embed"></div>';
 		$o .= '</div>';
 
 		// $o .= '<div class="cinema_chat_count"></div>';

@@ -79,6 +79,7 @@ class Status {
 		self::$status["timestamp"] = time();
 
 		file_put_contents(Path::create([self::$path, self::$name . ".status.ini"]), Array2Ini::serialize(self::$status));
+		chmod(Path::create([self::$path, self::$name . ".status.ini"]), 0664);
 	}
 
 

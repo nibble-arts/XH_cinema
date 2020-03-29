@@ -4,10 +4,6 @@
 
 function create_player(options) {
 
-	new Twitch.Embed("twitch-embed", {
-		width: 854,
-		height: 480,
-		channel: options.name,
-		layout: "video"
-	});
+	jQuery("#youtube-embed").append('<iframe width="560" height="315" src="https://www.youtube.com/embed/e1_bfF6TaV8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>');
+
 }

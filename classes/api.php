@@ -8,11 +8,11 @@ class Api {
 
 		$result = [];
 
-		if (Session::param("cinema_action") && ($name = Session::param("name"))) {
+		if (Session::param("cinema_action") && ($chat = Session::param("chat"))) {
 
 			// init classes
-			Register::init($name);
-			Chat::init($name);
+			Register::init($chat);
+			Chat::init($chat);
 
 			// register uuid
 			if (Session::param("uuid")) {

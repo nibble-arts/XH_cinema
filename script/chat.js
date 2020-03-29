@@ -19,6 +19,7 @@ class Chat {
 
 		this.user = options.user;
 		this.name = options.name;
+		this.chat = options.chat;
 		this.uuid = options.uuid;
 
 		this.lang = options.text;
@@ -31,7 +32,7 @@ class Chat {
 		this.create(this.root);
 
 		// show if user
-		if (this.user) {
+		if (this.user && this.chat) {
 
 			// show chat
 			jQuery("." + self.root).show();
@@ -95,7 +96,7 @@ class Chat {
 	chat_get() {
 
 		var self = this;
-		var url = "?cinema_action=chat&name=" + this.name + "&uuid=" + this.uuid + "&user=" + this.user;
+		var url = "?cinema_action=chat&chat=" + this.chat + "&uuid=" + this.uuid + "&user=" + this.user;
 
 		// send ajax request
 		jQuery.ajax({
@@ -116,7 +117,7 @@ class Chat {
 	// send new message to api
 	chat_post(data) {
 
-		var url = "?cinema_action=chat&name=" + this.name + "&user=" + this.user + "&uuid=" + this.uuid;
+		var url = "?cinema_action=chat&chat=" + this.chat + "&user=" + this.user + "&uuid=" + this.uuid;
 
 		if (data) {	
 			jQuery.each(data, function (k, v) {

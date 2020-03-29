@@ -80,6 +80,10 @@ class Register {
 	// load register
 	private static function load() {
 		self::$registered = parse_ini_file(self::$path, true);
+
+		if (!self::$registered) {
+			self::$registered = [];
+		}
 	}
 
 
@@ -89,6 +93,7 @@ class Register {
 		// write to ini file
 		if (self::$registered) {
 			file_put_contents(self::$path, Array2ini::serialize(self::$registered), true);
+			chmod(self::$path, 0664);
 		}
 	}
 }

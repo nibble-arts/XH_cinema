@@ -66,10 +66,6 @@ function cinema($name = false, $options = []) {
 		// name and valid platform
 		if ($name) {
 
-			// view option
-			if (!isset($options["view"])) {
-				$options["view"] = "player";
-			}
 
 
 			if (class_exists("ma\Access") && ma\Access::user()) {
@@ -85,6 +81,20 @@ function cinema($name = false, $options = []) {
 			// get js text
 			$text = cinema\Text::array();
 			$js_text = [];
+
+
+			// view option
+			if (!isset($options["view"])) {
+				$options["view"] = "player";
+			}
+
+			// chat option
+			if (isset($options["chat"])) {
+				$chat = $options["chat"];
+			}
+			else {
+				$chat = "";
+			}
 
 
 			// collect messages and remove prefix
@@ -113,6 +123,7 @@ function cinema($name = false, $options = []) {
 					"text" => $js_text,
 					"name" => $name,
 					"user" => $user,
+					"chat" => $chat,
 					"uuid" => uniqid()
 				]
 			);
